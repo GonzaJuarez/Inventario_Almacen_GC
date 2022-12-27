@@ -1,10 +1,6 @@
 import tkinter as tk
 from Cliente.Guia import Frame, Top_Menu
 
-"""
-pyi-makespec Main.py --windowed
-pyinstaller Main.spec
-"""
 
 def main():
     root = tk.Tk()
