@@ -1,8 +1,8 @@
-## Inventario_Almacen_GC 1.0 ##
+# Inventario_Almacen_GC 1.0 #
 
-# Descripción #
+## Descripción ##
 
-# Impacto Funcional #
+## Impacto Funcional ##
 
-# Ipacto Técnico #
+## Impacto Técnico ##
 
