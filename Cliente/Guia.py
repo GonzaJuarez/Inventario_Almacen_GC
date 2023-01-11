@@ -34,6 +34,10 @@ class Frame(tk.Frame):
         self.label_Porcentaje.config(font=("Arial", 12, "bold"))
         self.label_Porcentaje.grid(row=3, column=0, padx=10, pady=5)
 
+        self.label_Precio_al_Publico = tk.Label(self, text="Precio al Publico: ")
+        self.label_Precio_al_Publico.config(font=("Arial", 12, "bold"))
+        self.label_Precio_al_Publico.grid(row=4, column=0, padx=10, pady=5)
+
     def Entry(self):
         ##Entradas de datos##
         self.mi_Articulo = tk.StringVar()
@@ -41,15 +45,20 @@ class Frame(tk.Frame):
         self.entry_Articulos.config(width=50, font=("Arial", 12), state="disabled")
         self.entry_Articulos.grid(row=0, column=1, padx=10, pady=5, columnspan=2)
 
-        self.mi_Precio = tk.IntVar()
+        self.mi_Precio = tk.StringVar()
         self.entry_Precio = tk.Entry(self, textvariable=self.mi_Precio)
         self.entry_Precio.config(width=50, font=("Arial", 12), state="disabled")
         self.entry_Precio.grid(row=1, column=1, padx=10, pady=5, columnspan=2)
 
-        self.mi_Porcentaje = tk.IntVar()
+        self.mi_Porcentaje = tk.StringVar()
         self.entry_Porcentaje = tk.Entry(self, textvariable=self.mi_Porcentaje)
         self.entry_Porcentaje.config(width=50, font=("Arial", 12), state="disabled")
         self.entry_Porcentaje.grid(row=3, column=1, padx=10, pady=5, columnspan=2)
+
+        self.mi_Precio_al_Publico = tk.StringVar()
+        self.entry_Precio_al_Publico = tk.Entry(self, textvariable=self.mi_Precio_al_Publico)
+        self.entry_Precio_al_Publico.config(width=50, font=("Arial", 12), state="disabled")
+        self.entry_Precio_al_Publico.grid(row=4, column=1, padx=10, pady=5, columnspan=2)
 
     def Bottons(self):
         ##Botones##
@@ -78,30 +87,44 @@ class Frame(tk.Frame):
         self.entry_Articulos.config(state="normal")
         self.entry_Precio.config(state="normal")
         self.entry_Porcentaje.config(state="normal")
+        self.entry_Precio_al_Publico.config(state="normal")
 
         self.button_Guardar.config(state="normal")
         self.button_Cancelar.config(state="normal")
 
         self.mi_Articulo.set("")
-        self.mi_Precio.set(0)
-        self.mi_Porcentaje.set(0)
+        self.mi_Precio.set("")
+        self.mi_Porcentaje.set("")
+        self.mi_Precio_al_Publico.set("")
 
     def deshabilitar_campos(self):
-        self.articulo = ""
         self.entry_Articulos.config(state="disabled")
         self.entry_Precio.config(state="disabled")
         self.entry_Porcentaje.config(state="disabled")
+        self.entry_Precio_al_Publico.config(state="disabled")
 
         self.button_Guardar.config(state="disabled")
         self.button_Cancelar.config(state="disabled")
 
         self.mi_Articulo.set("")
-        self.mi_Precio.set(0)
-        self.mi_Porcentaje.set(0)
+        self.mi_Precio.set("")
+        self.mi_Porcentaje.set("")
+        self.mi_Precio_al_Publico.set("")
 
     def guardar_datos(self):
-        Precio_al_Publico = round(((self.mi_Precio.get() * self.mi_Porcentaje.get()) / 100) + self.mi_Precio.get())
-        inve = Inventario(self.mi_Articulo.get(), self.mi_Precio.get(), self.mi_Porcentaje.get(), Precio_al_Publico)
+        Precio_al_Publico = 0
+        if self.mi_Precio_al_Publico.get() != "":
+            if self.mi_Precio.get() != "" and self.mi_Porcentaje.get() != "":
+                inve = Inventario(self.mi_Articulo.get(), int(self.mi_Precio.get()), int(self.mi_Porcentaje.get()), int(self.mi_Precio_al_Publico.get()))
+            elif self.mi_Precio.get() != "":
+                inve = Inventario(self.mi_Articulo.get(), int(self.mi_Precio.get()), 0, int(self.mi_Precio_al_Publico.get()))
+            elif self.mi_Porcentaje.get() != "":
+                inve = Inventario(self.mi_Articulo.get(), 0,int(self.mi_Porcentaje.get()), int(self.mi_Precio_al_Publico.get()))
+            else:
+                inve = Inventario(self.mi_Articulo.get(), 0, 0, int(self.mi_Precio_al_Publico.get()))
+        else:
+            Precio_al_Publico = round(((int(self.mi_Precio.get()) * int(self.mi_Porcentaje.get())) / 100) + int(self.mi_Precio.get()))
+            inve = Inventario(self.mi_Articulo.get(), int(self.mi_Precio.get()), int(self.mi_Porcentaje.get()), Precio_al_Publico)
 
         if self.articulo == "":
             guardar(inve)
