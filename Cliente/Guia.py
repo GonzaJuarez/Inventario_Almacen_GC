@@ -22,7 +22,7 @@ class Frame(tk.Frame):
 
     def Labels(self):
         ##Texto de orientacion para las entradas##
-        self.label_Articulos = tk.Label(self, text = "Articulos: ")
+        self.label_Articulos = tk.Label(self, text = "Articulo: ")
         self.label_Articulos.config(font=("Arial", 12, "bold"))
         self.label_Articulos.grid(row=0, column=0, padx=10, pady=5)
 
@@ -64,7 +64,7 @@ class Frame(tk.Frame):
         ##Botones##
         color = "#146EDA"
         self.button_Agregar = tk.Button(self, text="Agregar", command=self.habilitar_campos)
-        self.button_Agregar.config(width=20, cursor="hand2", bg=color, activebackground=color, font=("Arial", 12, "bold"))
+        self.button_Agregar.config(width=20, cursor="hand2", bg=color, activebackground=color, font=("Arial", 12, "bold"), state="normal")
         self.button_Agregar.grid(row=5, column=0, padx=10, pady=5)
 
         self.button_Guardar = tk.Button(self, text="Guardar", command=self.guardar_datos)
@@ -89,6 +89,7 @@ class Frame(tk.Frame):
         self.entry_Porcentaje.config(state="normal")
         self.entry_Precio_al_Publico.config(state="normal")
 
+        self.button_Agregar.config(state="disabled")
         self.button_Guardar.config(state="normal")
         self.button_Cancelar.config(state="normal")
 
@@ -103,6 +104,7 @@ class Frame(tk.Frame):
         self.entry_Porcentaje.config(state="disabled")
         self.entry_Precio_al_Publico.config(state="disabled")
 
+        self.button_Agregar.config(state="normal")
         self.button_Guardar.config(state="disabled")
         self.button_Cancelar.config(state="disabled")
 
@@ -156,12 +158,14 @@ class Frame(tk.Frame):
             self.articulo = self.tabla.item(self.tabla.selection())['text']
             self.precio = self.tabla.item(self.tabla.selection())['values'][0]
             self.porcentaje = self.tabla.item(self.tabla.selection())['values'][2]
+            self.precio_al_publico = self.tabla.item(self.tabla.selection())['values'][1]
             
             self.habilitar_campos()
 
             self.entry_Articulos.insert(0, self.articulo)
             self.entry_Precio.insert(0, self.precio)
             self.entry_Porcentaje.insert(0, self.porcentaje)
+            self.entry_Precio_al_Publico.insert(0, self.precio_al_publico)
         except:
             titulo = "Editar Registro"
             mensaje = "No seleccionaste ningun registro"
